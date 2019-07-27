@@ -1,5 +1,9 @@
-<<<<<<< HEAD
-print('лол')
-=======
-print('жопа')
->>>>>>> 766fbb7efc3373d282ae3cfc63c885d9d2c3fdda
+import pyautogui
+import numpy
+import pyautogui as pg
+import numpy as np
+import cv2
+from PIL import Image
+import time
+import imutils
+import mss
