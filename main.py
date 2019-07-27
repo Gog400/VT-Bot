@@ -1,2 +1,1 @@
-print('hello dicks')
-aaaa жопа
+print('жопа')
