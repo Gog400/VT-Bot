@@ -6,9 +6,10 @@ import cv2
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
-originalImage = cv2.imread('Layer_1.png') # D:\Work\Programming\pyth\MMOrpg_bot\Character Recognition\Layer_1.png
-originalImage = cv2.resize(originalImage,(545,75)) # (109,15)
+originalImage = cv2.imread('Layer_2.png') # D:\Work\Programming\pyth\MMOrpg_bot\Character Recognition\Layer_1.png
 
+h, w = originalImage.shape[:2]
+originalImage = cv2.resize(originalImage, (w*5, h*5)) # (109,15)
 
 grayImage = cv2.cvtColor(originalImage, cv2.COLOR_BGR2GRAY)
 (thresh, blackAndWhiteImage) = cv2.threshold(grayImage, 127, 255, cv2.THRESH_BINARY)
