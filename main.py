@@ -27,7 +27,8 @@ def process_img(original_img):
         cv2.rectangle(original_img, pt, (pt[0] + w, pt[1] + h), (204, 40, 142), 2)
         # cv2.circle(original_img, pt, 5, (0,0,255), -1)
         # cv2.circle(original_img, (pt[0]+w, pt[1]+h), 5, (0,0,255), -1)
-        # zoom_screen = np.array(ImageGrab.grab(bbox=(pt[0], pt[1], w, h)))
+        zoom_screen = np.array(ImageGrab.grab(bbox=(pt[0], pt[1], pt[0]+w, pt[1]+h)))
+        zoom_screen = cv2.resize(zoom_screen, (w*5, h*5))
 
     # cv2.putText(original_img, str(text), (0,130), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 4)
     processed_imgs = [grey_img, BnW_img, zoom_screen]
