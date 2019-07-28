@@ -15,33 +15,37 @@ def process_img(original_img):
     grey_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY)
     (thresh, BnW_img) = cv2.threshold(grey_img, 127, 255, cv2.THRESH_BINARY)
 
-    text = pytesseract.image_to_string(BnW_img, lang = 'eng')
+    # text = pytesseract.image_to_string(BnW_img, lang = 'eng')
 
     ## Нахождение предмета
     res = cv2.matchTemplate(grey_img, template, cv2.TM_CCOEFF_NORMED)
     loc = np.where( res >= 0.8)
 
+    zoom_screen = original_img
     ## Обрисовка предмета
     for pt in zip(*loc[::-1]):
         cv2.rectangle(original_img, pt, (pt[0] + w, pt[1] + h), (204, 40, 142), 2)
+        # cv2.circle(original_img, pt, 5, (0,0,255), -1)
+        # cv2.circle(original_img, (pt[0]+w, pt[1]+h), 5, (0,0,255), -1)
+        # zoom_screen = np.array(ImageGrab.grab(bbox=(pt[0], pt[1], w, h)))
 
-    cv2.putText(original_img, str(text), (0,130), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 4)
-    processed_imgs = [grey_img, BnW_img]
+    # cv2.putText(original_img, str(text), (0,130), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 4)
+    processed_imgs = [grey_img, BnW_img, zoom_screen]
     return processed_imgs
 
 
 last_time = time.time()
 while True:
     # Захват экрана
-    screen = np.array(ImageGrab.grab(bbox=(0, 40, 640, 360)))
+    screen = np.array(ImageGrab.grab(bbox=(0, 0, 640, 360)))
     screen2 = process_img(screen)
 
     # Подсчет ФПС
-    print('FPS: {}'.format(1 / (time.time()-last_time) ))
+    # print('FPS: {}'.format(1 / (time.time()-last_time) ))
     last_time = time.time()
 
     cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
-    cv2.imshow('Processed screen', screen2[1])
+    cv2.imshow('Processed screen', screen2[2])
 
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
