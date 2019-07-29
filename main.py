@@ -10,33 +10,28 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 template = cv2.imread('Functionality\Layer_2.png', cv2.IMREAD_GRAYSCALE)
 w, h = template.shape[::-1]
 
+def CharRecogn(original_img, pt):
+    zoom_screen = np.array(ImageGrab.grab(bbox=(pt[0], pt[1], pt[0]+w, pt[1]+h)))
+    zoom_screen = cv2.resize(zoom_screen, (w*5, h*5))
+    zoom_screen_grey = cv2.cvtColor(zoom_screen, cv2.COLOR_BGR2GRAY)
+    (thresh, BnW_img) = cv2.threshold(zoom_screen_grey, 127, 255, cv2.THRESH_BINARY)
+    text = pytesseract.image_to_string(BnW_img, lang = 'eng')
+    cv2.putText(original_img, str(text), (pt[0]+w, pt[1]+h), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+    return original_img
 
 def process_img(original_img):
     grey_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY)
-
 
     ## Нахождение предмета
     res = cv2.matchTemplate(grey_img, template, cv2.TM_CCOEFF_NORMED)
     loc = np.where( res >= 0.8)
 
-    zoom_screen = original_img
-    BnW_img = original_img
     ## Обрисовка предмета
     for pt in zip(*loc[::-1]):
         cv2.rectangle(original_img, pt, (pt[0] + w, pt[1] + h), (204, 40, 142), 2)
-        # cv2.circle(original_img, pt, 5, (0,0,255), -1)
-        # cv2.circle(original_img, (pt[0]+w, pt[1]+h), 5, (0,0,255), -1)
-        zoom_screen = np.array(ImageGrab.grab(bbox=(pt[0], pt[1], pt[0]+w, pt[1]+h)))
-        zoom_screen = cv2.resize(zoom_screen, (w*5, h*5))
-        zoom_screen_grey = cv2.cvtColor(zoom_screen, cv2.COLOR_BGR2GRAY)
-        (thresh, BnW_img) = cv2.threshold(zoom_screen_grey, 127, 255, cv2.THRESH_BINARY)
-        text = pytesseract.image_to_string(BnW_img, lang = 'eng')
-        cv2.putText(original_img, str(text), (pt[0]+w, pt[1]+h), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
-        print(text)
+        original_img = CharRecogn(original_img, pt)
 
-    processed_imgs = [grey_img, BnW_img, zoom_screen]
-    return processed_imgs
-
+    return grey_img
 
 last_time = time.time()
 while True:
@@ -49,7 +44,7 @@ while True:
     last_time = time.time()
 
     cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
-    cv2.imshow('Processed screen', screen2[2])
+    cv2.imshow('Processed screen', screen2)
 
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
