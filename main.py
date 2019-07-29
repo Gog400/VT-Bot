@@ -3,12 +3,20 @@ import numpy as np
 import cv2
 import time
 import pytesseract
+from test2 import PressKey, ReleaseKey, W, A, S, D
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 ## Установление предмета для поиска
 template = cv2.imread('Functionality\Layer_2.png', cv2.IMREAD_GRAYSCALE)
 w, h = template.shape[::-1]
+
+def action():
+    if __name__ == '__main__':
+        PressKey(W)
+        time.sleep(1)
+        ReleaseKey(W)
+        time.sleep(1)
 
 def CharRecogn(original_img, pt):
     zoom_screen = np.array(ImageGrab.grab(bbox=(pt[0], pt[1], pt[0]+w, pt[1]+h)))
@@ -33,6 +41,11 @@ def process_img(original_img):
 
     return grey_img
 
+## Обратный отсчет
+for i in list(range(3))[::-1]:
+    print(i+1)
+    time.sleep(1)
+
 last_time = time.time()
 while True:
     # Захват экрана
@@ -45,6 +58,7 @@ while True:
 
     cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
     cv2.imshow('Processed screen', screen2)
+    action()
 
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
