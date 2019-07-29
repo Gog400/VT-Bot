@@ -3,14 +3,14 @@ import numpy as np
 import cv2
 import time
 import pytesseract
-from test2 import PressKey, ReleaseKey, characters
+from KeyboardEvents import PressKey, ReleaseKey, characters
+from LineAlgorthm import Event
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 ## Установление предмета для поиска
 template = cv2.imread('Functionality\Layer_2.png', cv2.IMREAD_GRAYSCALE)
 w, h = template.shape[::-1]
-
 
 def writeText(text):
     # if __name__ == '__main__':
@@ -46,21 +46,28 @@ def process_img(original_img):
 
     return grey_img
 
+def canny(original_img):
+     original_img = cv2.Canny(cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY), 200, 300)
+     return original_img
+
 ## Обратный отсчет
 for i in list(range(3))[::-1]:
     print(i+1)
     time.sleep(1)
 
-writeText("Titan's treasure")
+# writeText("Titan's treasure")
+
+Event.mouse_moving((300,300))
 
 last_time = time.time()
 while True:
     # Захват экрана
     screen = np.array(ImageGrab.grab(bbox=(0, 0, 640, 360)))
     screen2 = process_img(screen)
+    screen3 = canny(screen)
 
     # Подсчет ФПС
-    # print('FPS: {}'.format(1 / (time.time()-last_time) ))
+    print('FPS: {}'.format(1 / (time.time()-last_time) ))
     last_time = time.time()
 
     cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
