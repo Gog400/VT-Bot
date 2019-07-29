@@ -1,8 +1,10 @@
-    #import ctypes
+def writeText(text):
+    # if __name__ == '__main__':
+    queue.append(text)
+    for c in queue:
+        time.sleep(0.5)
+        PressKey(c)
+        time.sleep(0.5)
+        ReleaseKey(c)
 
-    #class POINT(ctypes.Structure):
-        #_fields_ = [("x", ctypes.c_ulong), ("y", ctypes.c_ulong)]
-
-    #point = POINT()
-    #ctypes.windll.user32.GetCursorPos(ctypes.pointer(point))
-    #print (point.x, point.y)
+writeText("Titan's treasure")
