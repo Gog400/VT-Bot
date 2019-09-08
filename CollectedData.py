@@ -1,1 +1,1 @@
-2019-07-30 00:17:03 | Titan's treasure | Unit Price: 2.999 ea
+2019-09-08 14:26:13 | Titan's treasure | Unit Price: 2,950 ea.

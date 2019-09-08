@@ -1,5 +1,6 @@
 import win32gui, win32api, win32con, ctypes
-import time
+from time import sleep
+from random import uniform
 
 def get_line(start, end):
     """Bresenham's Line Algorithm
@@ -64,12 +65,19 @@ class Event():
     def pos(x, y):
         ctypes.windll.user32.SetCursorPos(x, y)
 
-    def click():
+    def leftClick():
         ctypes.windll.user32.mouse_event(2, 0, 0, 0,0) # left down
+        sleep(uniform(0.05, 0.15))
         ctypes.windll.user32.mouse_event(4, 0, 0, 0,0) # left up
 
-    def mouse_moving(end):
-        delay = 0.0005
+    def rightClick():
+        ctypes.windll.user32.mouse_event(8, 0, 0, 0,0) # Right down
+        sleep(uniform(0.05, 0.15))
+        ctypes.windll.user32.mouse_event(10, 0, 0, 0,0) # Right up
+
+
+    def mouse_moving(end, button):
+
 
         start = win32api.GetCursorPos()
 
@@ -79,8 +87,16 @@ class Event():
         # see http://msdn.microsoft.com/en-us/library/ms646260(VS.85).aspx for details
 
         for p in points1:
+            delay = uniform(0.0003, 0.0007) # 0.0005
             Event.pos(p[0], p[1])
-            time.sleep(delay)
+            sleep(delay)
 
             if p == points1[len(points1)-1]:
-                Event.click()
+
+                if button == 'Left':
+                    Event.leftClick()
+
+                elif button == 'Right':
+                    Event.rightClick()
+
+# Event.mouse_moving((1000, 400), 'Left')
