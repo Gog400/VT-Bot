@@ -7,6 +7,7 @@ from KeyboardEvents import PressKey, ReleaseKey, characters
 from LineAlgorthm import Event
 import datetime
 from random import randint
+from pyclick.humanclicker import HumanClicker
 
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -15,15 +16,17 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 template = cv2.imread('Functionality\Axe1.png', cv2.IMREAD_GRAYSCALE)
 w, h = template.shape[::-1]
 
+hc = HumanClicker()
+
 def writeText(text):
     # if __name__ == '__main__':
     global queue
     queue = text.upper()
     for c in queue:
-        time.sleep(0.1)
+        time.sleep(uniform(0.05, 0.15))
         PressKey(characters[c])
         print(c + ' pressed')
-        time.sleep(0.1)
+        time.sleep(uniform(0.05, 0.15))
         ReleaseKey(characters[c])
         print(c + ' released' + '\n')
 
@@ -70,13 +73,21 @@ def process_img(original_img):
         cv2.rectangle(original_img, loc_n[0], (loc_n[0][0] + w, loc_n[0][1] + h), (204, 40, 142), 2)
         cv2.rectangle(original_img, (bottom_rect[0][0], bottom_rect[0][1]), (bottom_rect[1][0], bottom_rect[1][1]), (204, 40, 255), 2)
 
-        if int(time.time() % 2) != 0:
+        i = randint(0, 20)
+        if i == 1:
             rectrandX = randint(bottom_rect[0][0], bottom_rect[0][0] + bottom_rect_w)
             rectrandY = randint(bottom_rect[0][1], bottom_rect[0][1] + bottom_rect_h)
+
             cv2.circle(original_img, (rectrandX, rectrandY), 1, (220, 20, 60), thickness = 3)
+
+            hc.move((rectrandX+10, rectrandY+30), 1)
+            hc.real_click('Right')
+
+            # WriteText('r')
+
             # print('Y1 ',bottom_rect[0][1])
             # print('Y2 ',bottom_rect[1][1])
-            Event.mouse_moving((rectrandX+10, rectrandY+30), 'Left')
+            # Event.mouse_moving((rectrandX+10, rectrandY+30), 'Left')
 
     except:
         pass
