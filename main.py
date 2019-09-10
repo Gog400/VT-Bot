@@ -7,7 +7,7 @@ from KeyboardEvents import PressKey, ReleaseKey, characters
 from LineAlgorthm import Event
 import datetime
 from random import randint
-from pyclick.humanclicker import HumanClicker
+from humanclicker import HumanClicker
 
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -73,7 +73,7 @@ def process_img(original_img):
         cv2.rectangle(original_img, loc_n[0], (loc_n[0][0] + w, loc_n[0][1] + h), (204, 40, 142), 2)
         cv2.rectangle(original_img, (bottom_rect[0][0], bottom_rect[0][1]), (bottom_rect[1][0], bottom_rect[1][1]), (204, 40, 255), 2)
 
-        i = randint(0, 20)
+        i = randint(0, 10)
         if i == 1:
             rectrandX = randint(bottom_rect[0][0], bottom_rect[0][0] + bottom_rect_w)
             rectrandY = randint(bottom_rect[0][1], bottom_rect[0][1] + bottom_rect_h)
@@ -81,7 +81,9 @@ def process_img(original_img):
             cv2.circle(original_img, (rectrandX, rectrandY), 1, (220, 20, 60), thickness = 3)
 
             hc.move((rectrandX+10, rectrandY+30), 1)
-            hc.real_click('Right')
+            # hc.rightClick()
+            # hc.real_click('Right') # Походу придется переписывать код (полностью(кириллу)), также походу код перегружен и ивент клика тупо не запускается. Походу придеться делать многопоток
+
 
             # WriteText('r')
 
@@ -123,7 +125,7 @@ last_time = time.time()
 while True:
     # Захват экрана
     # screen = np.array(ImageGrab.grab(bbox=(0, 0, 960, 1080))) # Right half of monitor
-    screen = np.array(ImageGrab.grab(bbox=(960, 0, 1920, 1000))) # Right half of monitor
+    screen = np.array(ImageGrab.grab(bbox=(0, 0, 1920, 1080))) # Right half of monitor
     screen2 = process_img(screen)
     # screen3 = canny(screen)
 
@@ -132,8 +134,8 @@ while True:
     cv2.putText(screen, 'FPS: {}'.format(int(1 / (time.time()-last_time))), (0, 1000), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     last_time = time.time()
 
-    cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
-    cv2.imshow('Template', template)
+    # cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
+    # cv2.imshow('Template', template)
 
     # cv2.imshow('Processed screen', screen2)
 

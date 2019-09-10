@@ -1,8 +1,8 @@
 import pytweening
 import numpy as np
 import random
-from pyclick._utils import isListOfPoints, isNumeric
-from pyclick._beziercurve import BezierCurve
+from _utils import isListOfPoints, isNumeric
+from _beziercurve import BezierCurve
 
 
 class HumanCurve():
