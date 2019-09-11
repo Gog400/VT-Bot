@@ -6,7 +6,7 @@ import pytesseract
 from KeyboardEvents import PressKey, ReleaseKey, characters
 from LineAlgorthm import Event
 import datetime
-from random import randint
+from random import randint, uniform
 import win32gui, win32api, win32con, ctypes
 from humanclicker import HumanClicker
 
@@ -85,9 +85,10 @@ def process_img(original_img):
             hc.move((rectrandX+10, rectrandY+30), 1)
 
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, rectrandX, rectrandY, 0, 0)
+            time.sleep(uniform(0.05, 0.15))
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, rectrandX, rectrandY, 0, 0)
             # hc.rightClick()
-            # HumanClicker.real_click('Right') # Походу придется переписывать код (полностью(кириллу)), также походу код перегружен и ивент клика тупо не запускается. Походу придеться делать многопоток
+            # hc.real_click('Left') # Походу придется переписывать код (полностью(кириллу)), также походу код перегружен и ивент клика тупо не запускается. Походу придеться делать многопоток
 
 
             # WriteText('r')
@@ -140,7 +141,7 @@ while True:
     last_time = time.time()
 
     # cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
-    cv2.imshow('Template', template)
+    # cv2.imshow('Template', template)
 
     # cv2.imshow('Processed screen', screen2)
 
