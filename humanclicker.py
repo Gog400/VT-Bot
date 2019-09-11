@@ -17,7 +17,6 @@ class HumanClicker():
             sleep(duration / len(humanCurve.points))
             ctypes.windll.user32.SetCursorPos(int(point[0]), int(point[1]))
 
-        hc.rightClick()
 
     # def leftClick():
     #     ctypes.windll.user32.mouse_event(2, 0, 0, 0,0) # left down

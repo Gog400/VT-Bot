@@ -24,14 +24,14 @@ def getCentre(hwnd):
 
 
 
-steam = FindWindow_bySearch('Steam')
-paint = FindWindow_bySearch('test.jpg - Paint')
+# steam = FindWindow_bySearch('Steam')
+# paint = FindWindow_bySearch('test.jpg - Paint')
 
-ppos = getCentre(paint)
+# ppos = getCentre(paint)
 
-print(ppos)
+# print(ppos)
 # win32gui.ShowWindow(paint, win32con.SW_RESTORE)
 # win32gui.SetForegroundWindow(paint)
-win32gui.EnableWindow(paint, True)
+# win32gui.EnableWindow(paint, True)
 
-print(ppos, ' Done!')
+# print(ppos, ' Done!')
