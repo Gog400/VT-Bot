@@ -1,9 +1,10 @@
+from humancurve import HumanCurve
 from win32api import GetCursorPos, SetCursorPos, mouse_event
 import win32con
 from time import sleep
 from random import randint
 
-class HumanMouse:
+class HumanMouse():
 
     def move(toPoint, duration=2, humanCurve=None):
         # moving your mouse in the bezier curve path
@@ -14,8 +15,8 @@ class HumanMouse:
             humanCurve = HumanCurve(fromPoint, toPoint)
 
         for point in humanCurve.points:
-            sleep(duration // len(humanCurve.points))
-            SetCursorPos(point[0], point[1])
+            sleep(duration / len(humanCurve.points))
+            SetCursorPos((int(point[0]), int(point[1])))
 
 
     def buttonPressedReleased(button):

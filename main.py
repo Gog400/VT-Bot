@@ -7,8 +7,6 @@ from KeyboardEvents import PressKey, ReleaseKey, characters
 import datetime
 from random import randint, uniform
 import win32gui, win32api, win32con, ctypes
-from humanclicker import HumanClicker
-
 from humanmouse import HumanMouse
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -16,8 +14,6 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 ## Установление предмета для поиска
 template = cv2.imread('Functionality\Axe1.png', cv2.IMREAD_GRAYSCALE)
 w, h = template.shape[::-1]
-
-# hc = HumanClicker()
 
 def writeText(text):
     # if __name__ == '__main__':
@@ -70,37 +66,22 @@ def process_img(original_img):
         cv2.rectangle(original_img, loc_n[0], (loc_n[0][0] + w, loc_n[0][1] + h), (204, 40, 142), 2)
         cv2.rectangle(original_img, (bottom_rect[0][0], bottom_rect[0][1]), (bottom_rect[1][0], bottom_rect[1][1]), (204, 40, 255), 2)
 
-        i = randint(0, 20)
+        i = randint(0, 15)
         if i == 1:
             rectrandX = randint(bottom_rect[0][0], bottom_rect[0][0] + bottom_rect_w)
             rectrandY = randint(bottom_rect[0][1], bottom_rect[0][1] + bottom_rect_h)
 
             cv2.circle(original_img, (rectrandX, rectrandY), 1, (220, 20, 60), thickness = 3)
 
-            HumanMouse.move((rectrandX, rectrandY))
+            HumanMouse.move((rectrandX+10, rectrandY+30))
             HumanMouse.click('Right', 'Left')
-
-            # hc.move((rectrandX+10, rectrandY+30), 1)
-            #
-            # win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, rectrandX, rectrandY, 0, 0)
-            # time.sleep(uniform(0.05, 0.15))
-            # win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, rectrandX, rectrandY, 0, 0)
-            # hc.rightClick()
-            # hc.real_click('Left') # Походу придется переписывать код (полностью(кириллу)), также походу код перегружен и ивент клика тупо не запускается. Походу придеться делать многопоток
-
-
-            # WriteText('r')
-
-            # print('Y1 ',bottom_rect[0][1])
-            # print('Y2 ',bottom_rect[1][1])
-            # Event.mouse_moving((rectrandX+10, rectrandY+30), 'Left')
 
     except:
         pass
 
 
 
-    ## Обрисовка предмета
+    ## Обрисовка n-количества предметов
     # for pt in zip(*loc[::-1]):
     #     cv2.rectangle(original_img, pt, (pt[0] + w, pt[1] + h), (204, 40, 142), 2)
     #     # original_img = CharRecogn(original_img, pt)
