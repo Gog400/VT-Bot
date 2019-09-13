@@ -4,13 +4,12 @@ import cv2
 import time
 import pytesseract
 from KeyboardEvents import PressKey, ReleaseKey, characters
-from LineAlgorthm import Event
 import datetime
 from random import randint, uniform
 import win32gui, win32api, win32con, ctypes
 from humanclicker import HumanClicker
 
-
+from humanmouse import HumanMouse
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
@@ -18,7 +17,7 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 template = cv2.imread('Functionality\Axe1.png', cv2.IMREAD_GRAYSCALE)
 w, h = template.shape[::-1]
 
-hc = HumanClicker()
+# hc = HumanClicker()
 
 def writeText(text):
     # if __name__ == '__main__':
@@ -35,10 +34,6 @@ def writeText(text):
     return queue
 
 def CharRecogn(original_img, pt):
-    # global priceArray
-    # global recognizedText
-    # priceArray = []
-
     zoom_screen = np.array(ImageGrab.grab(bbox=(pt[0], pt[1], pt[0]+w, pt[1]+h)))
     zoom_screen = cv2.resize(zoom_screen, (w*5, h*5))
     zoom_screen_grey = cv2.cvtColor(zoom_screen, cv2.COLOR_BGR2GRAY)
@@ -75,18 +70,21 @@ def process_img(original_img):
         cv2.rectangle(original_img, loc_n[0], (loc_n[0][0] + w, loc_n[0][1] + h), (204, 40, 142), 2)
         cv2.rectangle(original_img, (bottom_rect[0][0], bottom_rect[0][1]), (bottom_rect[1][0], bottom_rect[1][1]), (204, 40, 255), 2)
 
-        i = randint(0, 10)
+        i = randint(0, 20)
         if i == 1:
             rectrandX = randint(bottom_rect[0][0], bottom_rect[0][0] + bottom_rect_w)
             rectrandY = randint(bottom_rect[0][1], bottom_rect[0][1] + bottom_rect_h)
 
             cv2.circle(original_img, (rectrandX, rectrandY), 1, (220, 20, 60), thickness = 3)
 
-            hc.move((rectrandX+10, rectrandY+30), 1)
+            HumanMouse.move((rectrandX, rectrandY))
+            HumanMouse.click('Right', 'Left')
 
-            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, rectrandX, rectrandY, 0, 0)
-            time.sleep(uniform(0.05, 0.15))
-            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, rectrandX, rectrandY, 0, 0)
+            # hc.move((rectrandX+10, rectrandY+30), 1)
+            #
+            # win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, rectrandX, rectrandY, 0, 0)
+            # time.sleep(uniform(0.05, 0.15))
+            # win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, rectrandX, rectrandY, 0, 0)
             # hc.rightClick()
             # hc.real_click('Left') # Походу придется переписывать код (полностью(кириллу)), также походу код перегружен и ивент клика тупо не запускается. Походу придеться делать многопоток
 
@@ -124,14 +122,13 @@ for i in list(range(3))[::-1]:
     time.sleep(1)
 
 # writeText("Titan's treasure")
-# Event.mouse_moving((300,300))
 
 
 last_time = time.time()
 while True:
     # Захват экрана
-    # screen = np.array(ImageGrab.grab(bbox=(0, 0, 960, 1080))) # Right half of monitor
-    screen = np.array(ImageGrab.grab(bbox=(0, 0, 1920, 1080))) # Right half of monitor
+    screen = np.array(ImageGrab.grab(bbox=(960, 0, 1920, 1080))) # Right half of monitor
+    # screen = np.array(ImageGrab.grab(bbox=(0, 0, 1920, 1080))) # Full monitor
     screen2 = process_img(screen)
     # screen3 = canny(screen)
 
@@ -140,20 +137,11 @@ while True:
     cv2.putText(screen, 'FPS: {}'.format(int(1 / (time.time()-last_time))), (0, 1000), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     last_time = time.time()
 
-    # cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
-    # cv2.imshow('Template', template)
+    cv2.imshow('Default screen', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
+    cv2.imshow('Template', template)
 
     # cv2.imshow('Processed screen', screen2)
 
-    # try:
-    #     if recognizedText not in priceArray:
-    #         priceArray.append(recognizedText)# Массив почему-то постоянно обновляется, я не знаю почему. Также, непонятно как recognizedText себя
-    #         # ведет, когда несколько цен определяются одновременно. Скорее всего придется вручную настрить захват окон с ценами
-    #
-    #     for i in priceArray:
-    #         dataStamp('CollectedData.py', "Titan's treasure", i)
-    # except:
-    #     pass
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
         break
