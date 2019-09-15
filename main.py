@@ -8,6 +8,7 @@ import datetime
 from random import randint, uniform
 import win32gui, win32api, win32con, ctypes
 from humanmouse import HumanMouse
+from mouse import mmove
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
@@ -73,7 +74,8 @@ def process_img(original_img):
 
             cv2.circle(original_img, (rectrandX, rectrandY), 1, (220, 20, 60), thickness = 3)
 
-            HumanMouse.move((rectrandX+10, rectrandY+30))
+            mmove((rectrandX+10, rectrandY+30))
+            # HumanMouse.move((rectrandX+10, rectrandY+30))
             HumanMouse.click('Right', 'Left')
 
     except:
