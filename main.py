@@ -67,16 +67,18 @@ def process_img(original_img):
         cv2.rectangle(original_img, loc_n[0], (loc_n[0][0] + w, loc_n[0][1] + h), (204, 40, 142), 2)
         cv2.rectangle(original_img, (bottom_rect[0][0], bottom_rect[0][1]), (bottom_rect[1][0], bottom_rect[1][1]), (204, 40, 255), 2)
 
-        i = randint(0, 15)
-        if i == 1:
-            rectrandX = randint(bottom_rect[0][0], bottom_rect[0][0] + bottom_rect_w)
-            rectrandY = randint(bottom_rect[0][1], bottom_rect[0][1] + bottom_rect_h)
+        # i = randint(0, 15)
+        # if i == 1:
+        rectrandX = randint(bottom_rect[0][0], bottom_rect[0][0] + bottom_rect_w)
+        rectrandY = randint(bottom_rect[0][1], bottom_rect[0][1] + bottom_rect_h)
 
-            cv2.circle(original_img, (rectrandX, rectrandY), 1, (220, 20, 60), thickness = 3)
+        cv2.circle(original_img, (rectrandX, rectrandY), 1, (220, 20, 60), thickness = 3)
 
-            mmove((rectrandX+10, rectrandY+30))
-            # HumanMouse.move((rectrandX+10, rectrandY+30))
-            HumanMouse.click('Right', 'Left')
+        mmove((rectrandX+10, rectrandY+30))
+        # HumanMouse.move((rectrandX+10, rectrandY+30))
+        HumanMouse.click('Right', 'Left')
+        # writeText("R")
+        # writeText("F")
 
     except:
         pass
@@ -116,7 +118,7 @@ while True:
     # screen3 = canny(screen)
 
     # Подсчет ФПС
-    # print('FPS: {}'.format(1 / (time.time()-last_time) ))
+    print('FPS: {}'.format(1 / (time.time()-last_time) ))
     cv2.putText(screen, 'FPS: {}'.format(int(1 / (time.time()-last_time))), (0, 1000), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     last_time = time.time()
 
